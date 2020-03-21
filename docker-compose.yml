@@ -16,7 +16,7 @@ services:
       - /opt/queue-messaging/project/target
       - /root/.sbt/1.0/plugins
 
-  akka-kafka-consuner:
+  akka-kafka-consumer:
     build: .
     depends_on:
       - kafka-broker
@@ -30,19 +30,19 @@ services:
       - /opt/queue-messaging/project/target
       - /root/.sbt/1.0/plugins
 
-#  fs2-kafka-consumer:
-#    build: .
-#    depends_on:
-#      - kafka-broker
-#      - schema-registry
-#    command: fs2KafkaConsumer/run
-#    volumes:
-#      - ~/.sbt:/root/.sbt
-#      - ~/.coursier:/root/.coursier
-#      - .:/opt/queue-messaging
-#      - /opt/queue-messaging/target
-#      - /opt/queue-messaging/project/target
-#      - /root/.sbt/1.0/plugins
+  fs2-kafka-consumer:
+    build: .
+    depends_on:
+      - kafka-broker
+      - schema-registry
+    command: fs2KafkaConsumer/run
+    volumes:
+      - ~/.sbt:/root/.sbt
+      - ~/.coursier:/root/.coursier
+      - .:/opt/queue-messaging
+      - /opt/queue-messaging/target
+      - /opt/queue-messaging/project/target
+      - /root/.sbt/1.0/plugins
 
   zookeeper:
     image: confluentinc/cp-zookeeper
@@ -60,7 +60,7 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.0.111:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-broker:9092
 
   schema-registry:
     image: confluentinc/cp-schema-registry
